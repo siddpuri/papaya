@@ -26,5 +26,8 @@ class Server:
 
     def stop(self) -> None:
         self.runner.warn_all('Server shutting down')
+        self.stop_now()
+
+    def stop_now(self) -> None:
         self.runner.stop()
         self.instance_helper.stop()
