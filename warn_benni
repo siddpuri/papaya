@@ -1,0 +1,7 @@
+#!/bin/python3
+from app import server
+
+server.Server().warn(
+    ['BenzEagle'],
+    'es ist Zeit zu schlafen',
+)

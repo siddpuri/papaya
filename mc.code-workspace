@@ -1,0 +1,53 @@
+{
+	"folders": [
+		{
+			"path": "/home/sidd/.shared/projects/Minecraft",
+		},
+	],
+	"settings": {
+		"editor.parameterHints.enabled": false,
+		"editor.acceptSuggestionOnEnter": "on",
+		"editor.quickSuggestionsDelay": 1000,
+		"editor.suggestOnTriggerCharacters": false,
+		"editor.tabCompletion": "on",
+		"editor.formatOnSave": true,
+		"editor.formatOnType": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": true,
+		},
+		"files.exclude": {
+			"**/.mypy_cache": true,
+			"**/objectdb": true,
+			"**/__init__.py": true,
+			"**/__pycache__": true,
+		},
+		"python.formatting.provider": "black",
+		"python.formatting.blackArgs": [
+			"--line-length=80",
+			"--skip-string-normalization",
+		],
+		"python.linting.mypyEnabled": true,
+		"python.linting.mypyArgs": [
+			"--follow-imports=silent",
+			"--show-column-numbers",
+			"--disallow-untyped-defs",
+		],
+		"python.linting.pylintEnabled": true,
+		"python.linting.pylintArgs": [
+			"--disable=missing-module-docstring",
+			"--disable=missing-class-docstring",
+			"--disable=missing-function-docstring",
+			"--disable=too-few-public-methods",
+			// Workaround for bug when linting Optional[...]
+			"--disable=unsubscriptable-object",
+			// Sometimes black has different ideas than pylint
+			"--disable=wrong-import-order",
+			// Allow short variable names for classes, fields, args, and locals
+			"--class-rgx=[A-Z][a-zA-z0-9]{0,30}$",
+			"--attr-rgx=[a-z_][a-z0-9_]{0,30}$",
+			"--argument-rgx=[a-z_][a-z0-9_]{0,30}$",
+			"--variable-rgx=[a-z_][a-z0-9_]{0,30}$",
+		],
+		"jupyter.notebookFileRoot": "${workspaceFolder}",
+	},
+}
