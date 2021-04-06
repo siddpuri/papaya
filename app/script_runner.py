@@ -27,15 +27,18 @@ class ScriptRunner:
     def start(self) -> None:
         self.wait_for_server()
         self.run_remote(
-            'sudo mkdir /ebs',
-            'sudo mount /dev/nvme1n1 /ebs',
-            '/ebs/bin/setup',
+            'sudo ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime',
+            'sudo yum update -y',
             'sudo reboot now',
         )
         self.wait_for_server()
         self.run_remote(
+            'sudo yum install -y git jre screen emacs',
+            'git clone https://github.com/siddpuri/papaya.git',
+            'ln -sf ~/papaya/bin/server/bashrc ~/.bashrc',
+            'sudo mkdir /ebs',
             'sudo mount /dev/nvme1n1 /ebs',
-            'start',
+            '~/papaya/bin/server/start',
         )
 
     def warn_all(self, message: str) -> None:
