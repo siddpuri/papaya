@@ -1,16 +1,23 @@
 #!/bin/bash
 
-MDS=http://169.254.169.254/latest
+MDS_URL=http://169.254.169.254/latest
+TOKEN_URL=$MDS_URL/api/token
+ACTION_URL=$MDS_URL/meta-data/spot/instance-action
+
+TOKEN_REQUEST_HEADER="-H X-aws-ec2-metadata-token-ttl-seconds"
+TOKEN_HEADER="-H X-aws-ec2-metadata-token"
 
 while true; do
-    TOK=$(curl -X PUT $MDS/api/token -sH "X-aws-ec2-metadata-token-ttl-seconds: 5")
-    CMD="curl -sH \"X-aws-ec2-metadata-token: $TOK\" $MDS/meta-data/spot/instance-action"
-    if [ "$($CMD -o /dev/null -w %{http_code})" != 404 ]; then
-        mc say "Uh oh, it looks like this server is about to be reclaimed."
-        mc say "Server will be shutting down very soon."
-        mc say $($CMD)
-    else
-        mc say "Server is ok"
-        mc say '{"action": "terminate", "time": "2017-09-18T08:22:00Z"}'
+    TOKEN=$(curl -s -X PUT $TOKEN_REQUEST_HEADER:5 $TOKEN_URL)
+    CODE=$(curl -s -o /dev/null -w %{http_code} $TOKEN_HEADER:$TOKEN $ACTION_URL)
+    if [ "$CODE" != 404 ]; then
+        ACTION=$(curl -s $TOKEN_HEADER:$TOKEN $ACTION_URL)
+        mc say "Uh oh. Emergency shutdown imminent."
+#        mc say "Expected downtime: 5-10 minutes."
+        mc say "$ACTION"
+#    else
+#        mc say "Server is ok"
+#        mc say '{"action": "terminate", "time": "2017-09-18T08:22:00Z"}'
+    fi
     sleep 10
 done
