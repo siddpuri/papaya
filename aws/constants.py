@@ -1,4 +1,4 @@
-INSTANCE_TYPE = 'm6g.large'
+INSTANCE_TYPE = 'm6g.xlarge'
 KEY_NAME = 'tp'
 AVAILABILITY_ZONE = 'eu-central-1a'
 SECURITY_GROUP = 'minecraft'
