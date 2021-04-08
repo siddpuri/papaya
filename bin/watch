@@ -1,0 +1,14 @@
+#!/bin/bash
+
+MDS=http://169.254.169.254/latest
+
+while true; do
+    TOK=$(curl -X PUT $MDS/api/token -sH "X-aws-ec2-metadata-token-ttl-seconds: 5")
+    CMD="curl -sH \"X-aws-ec2-metadata-token: $TOK\" $MDS/meta-data/spot/instance-action"
+    if [ "$($CMD -o /dev/null -w %{http_code})" != 404 ]; then
+        mc say "Uh oh, it looks like this server is about to be reclaimed."
+        mc say "Server will be shutting down very soon."
+        mc say $($CMD)
+    fi
+    sleep 10
+done

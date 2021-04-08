@@ -38,6 +38,7 @@ class ScriptRunner:
             'ln -sf papaya/bashrc .bashrc',
             'sudo mkdir /mc',
             'sudo mount /dev/nvme1n1 /mc',
+            'nohup watch',
             'start',
         )
 
