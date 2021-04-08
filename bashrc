@@ -9,7 +9,7 @@ fi
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
-export PATH=$PATH:~/papaya/bin/server
+export PATH=$PATH:~/papaya/bin
 
 l  ()   { ls -l $*; }
 a  ()   { ls -a $*; }

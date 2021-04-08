@@ -1,0 +1,27 @@
+#!/bin/python3
+import sys
+
+from app import server
+
+s = server.Server()
+
+commands = {
+    'start': lambda: s.start(),
+    'stop': lambda: s.stop(),
+    'stop_now': lambda: s.stop_now(),
+    'warn_benni': lambda: s.warn(
+        ['BenzEagle'],
+        'es ist Zeit zu schlafen',
+    ),
+    'warn_puri': lambda: s.warn(
+        ['ThreeCarnival65', 'awesomejazzy1'],
+        'Puri network shutting down',
+    ),
+}
+
+if len(sys.argv) != 2:
+    print('Please supply one argument')
+elif sys.argv[1] in commands:
+    commands[sys.argv[1]]()
+else:
+    print('Unknown command')

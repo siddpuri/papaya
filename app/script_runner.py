@@ -35,10 +35,10 @@ class ScriptRunner:
         self.run_remote(
             'sudo yum install -y git jre screen emacs',
             'git clone https://github.com/siddpuri/papaya.git',
-            'ln -sf ~/papaya/bin/server/bashrc ~/.bashrc',
+            'ln -sf papaya/bashrc .bashrc',
             'sudo mkdir /ebs',
             'sudo mount /dev/nvme1n1 /ebs',
-            '~/papaya/bin/server/start',
+            'start',
         )
 
     def warn_all(self, message: str) -> None:

@@ -38,6 +38,7 @@
 			"--disable=missing-class-docstring",
 			"--disable=missing-function-docstring",
 			"--disable=too-few-public-methods",
+			"--disable=unnecessary-lambda",
 			// Workaround for bug when linting Optional[...]
 			"--disable=unsubscriptable-object",
 			// Sometimes black has different ideas than pylint

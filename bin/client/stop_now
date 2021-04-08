@@ -1,4 +1,0 @@
-#!/bin/python3
-from app import server
-
-server.Server().stop_now()

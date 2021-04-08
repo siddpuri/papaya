@@ -1,3 +1,0 @@
-#!/bin/bash
-cd /ebs/mc
-screen -d -m -S mc java -Xms6g -Xmx6g -XX:+UseG1GC -jar paper-1.16.5-487.jar nogui
