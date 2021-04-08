@@ -30,11 +30,10 @@ class InstanceHelper:
 
     # Information getters
 
-    def check_instance_not_running(self) -> None:
+    def is_instance_running(self) -> bool:
         response = self.ec2.describe_instances(Filters=c.INSTANCE_FILTER)
         reservations = response['Reservations']
-        if reservations:
-            raise Exception('Instance is already running')
+        return len(reservations) > 0
 
     def get_latest_ami(self) -> str:
         response = self.ec2.describe_images(
@@ -51,7 +50,7 @@ class InstanceHelper:
         response = self.ec2.describe_instances(Filters=c.INSTANCE_FILTER)
         reservations = response['Reservations']
         if not reservations:
-            raise Exception('Instance is not running')
+            raise RuntimeError('Instance is not running')
         assert len(reservations) == 1
         instances = reservations[0]['Instances']
         assert len(instances) == 1
@@ -68,7 +67,8 @@ class InstanceHelper:
     # Instance actions
 
     def create_spot_request(self) -> None:
-        self.check_instance_not_running()
+        if self.is_instance_running():
+            raise RuntimeError('Instance is already running')
         self.log('There is no instance running')
         latest_ami = self.get_latest_ami()
         self.log(f'Latest AMI: {latest_ami}')

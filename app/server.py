@@ -11,10 +11,9 @@ class Server:
     def __init__(self) -> None:
         self.logger = app.logger.Logger()
         self.instance_helper = aws.instance_helper.InstanceHelper()
-        try:
+        if self.instance_helper.is_instance_running():
             address = self.instance_helper.get_address()
-        except Exception as e:
-            self.log(f'Exception: {e}')
+        else:
             address = 'topherpuri.com'
         self.runner = ScriptRunner(address)
 
