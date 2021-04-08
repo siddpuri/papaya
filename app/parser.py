@@ -29,7 +29,7 @@ class Parser:
         self.entries: T.List[Entry] = []
 
     def load(self, pattern: str = '*') -> None:
-        response = self.script_runner.ssh([], f'zcat -f /ebs/mc/logs/{pattern}')
+        response = self.script_runner.ssh([], f'zcat -f /mc/logs/{pattern}')
         lines = str(response.stdout, 'utf-8').split('\n')
         self.entries = [Entry(l) for l in lines if re.search(LINE, l)]
 

@@ -1,4 +1,3 @@
 #!/bin/bash
-cd /ebs/mc
 mc stop
-(tail -f -n1 logs/latest.log &) | grep -q "Closing Server"
+(tail -f -n1 /mc/logs/latest.log &) | grep -q "Closing Server"

@@ -36,8 +36,8 @@ class ScriptRunner:
             'sudo yum install -y git jre screen emacs',
             'git clone https://github.com/siddpuri/papaya.git',
             'ln -sf papaya/bashrc .bashrc',
-            'sudo mkdir /ebs',
-            'sudo mount /dev/nvme1n1 /ebs',
+            'sudo mkdir /mc',
+            'sudo mount /dev/nvme1n1 /mc',
             'start',
         )
 
