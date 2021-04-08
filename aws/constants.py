@@ -1,4 +1,18 @@
-INSTANCE_TYPE = 'm6g.xlarge'
+# Arm64 instances with 2 vCPUs, 8 GB RAM, and not t4g
+# Ordered by increasing cost
+INSTANCE_TYPES = [
+    'm6g.large',
+    'm6gd.large',
+    'a1.xlarge',
+    'r6g.large',
+    'r6gd.large',
+    'c6g.xlarge',
+    'c6gd.xlarge',
+    'm6g.xlarge',
+    'm6gd.xlarge',
+    'a1.2xlarge',
+]
+
 KEY_NAME = 'tp'
 AVAILABILITY_ZONE = 'eu-central-1a'
 SECURITY_GROUP = 'minecraft'
@@ -34,14 +48,14 @@ INSTANCE_FILTER = [
 SPOT_REQUEST_FILTER = [
     {
         'Name': 'state',
-        'Values': ['active'],
+        'Values': ['active', 'open'],
     },
 ]
 
-LAUNCH_SPECIFICATION = lambda ami_id: {
+LAUNCH_SPECIFICATION = lambda ami_id, instance_type: {
     'SecurityGroups': [SECURITY_GROUP],
     'ImageId': ami_id,
-    'InstanceType': INSTANCE_TYPE,
+    'InstanceType': instance_type,
     'KeyName': KEY_NAME,
     'Placement': {'AvailabilityZone': AVAILABILITY_ZONE},
 }

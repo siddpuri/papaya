@@ -70,24 +70,16 @@ class InstanceHelper:
         if self.is_instance_running():
             raise RuntimeError('Instance is already running')
         self.log('There is no instance running')
-        latest_ami = self.get_latest_ami()
-        self.log(f'Latest AMI: {latest_ami}')
-        response = self.ec2.request_spot_instances(
-            LaunchSpecification=c.LAUNCH_SPECIFICATION(latest_ami)
-        )
-        requests = response['SpotInstanceRequests']
-        assert len(requests) == 1
-        request_id = requests[0]['SpotInstanceRequestId']
-        self.log(f'Created spot request: {request_id}')
-        self.ec2.get_waiter('spot_instance_request_fulfilled').wait(
-            SpotInstanceRequestIds=[request_id]
-        )
-        response = self.ec2.describe_spot_instance_requests(
-            SpotInstanceRequestIds=[request_id]
-        )
-        requests = response['SpotInstanceRequests']
-        assert len(requests) == 1
-        instance_id = requests[0]['InstanceId']
+        ami_id = self.get_latest_ami()
+        self.log(f'Latest AMI: {ami_id}')
+        for instance_type in c.INSTANCE_TYPES:
+            try:
+                instance_id = self.request_instance_type(ami_id, instance_type)
+                break
+            except botocore.exceptions.WaiterError:
+                self.cancel_spot_request()
+                if self.is_instance_running():
+                    self.terminate_instance()
         self.log(f'Starting instance: {instance_id}')
         try:
             self.ec2.get_waiter('instance_running').wait(
@@ -96,6 +88,25 @@ class InstanceHelper:
         except botocore.exceptions.WaiterError:
             self.log('Waiter error')
         self.log(f'Started instance: {instance_id}')
+
+    def request_instance_type(self, ami_id: str, instance_type: str) -> str:
+        response = self.ec2.request_spot_instances(
+            LaunchSpecification=c.LAUNCH_SPECIFICATION(ami_id, instance_type)
+        )
+        requests = response['SpotInstanceRequests']
+        assert len(requests) == 1
+        request_id = requests[0]['SpotInstanceRequestId']
+        self.log(f'Created spot request: {request_id} for {instance_type}')
+        self.ec2.get_waiter('spot_instance_request_fulfilled').wait(
+            SpotInstanceRequestIds=[request_id],
+            WaiterConfig={'Delay': 10, 'MaxAttempts': 6},
+        )
+        response = self.ec2.describe_spot_instance_requests(
+            SpotInstanceRequestIds=[request_id]
+        )
+        requests = response['SpotInstanceRequests']
+        assert len(requests) == 1
+        return requests[0]['InstanceId']
 
     def cancel_spot_request(self) -> None:
         response = self.ec2.describe_spot_instance_requests(
