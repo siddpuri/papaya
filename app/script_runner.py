@@ -60,7 +60,6 @@ class ScriptRunner:
                 return
 
     def warn(self, commands: T.List[str], message: str) -> None:
-        self.log('Sending warnings')
         for t in range(5, 0, -1):
             m = 'minutes' if t > 1 else 'minute'
             self.run_remote(*(f'mc {c} {message} in {t} {m}' for c in commands))

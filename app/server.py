@@ -29,15 +29,14 @@ class Server:
         self.runner.start()
 
     def warn(self, users: T.List[str], message: str) -> None:
-        self.log('Sending warning')
         self.runner.warn_users(users, message)
 
     def stop(self) -> None:
-        self.log('Shutting down server')
+        self.log('Starting shutdown')
         self.runner.warn_all('Server shutting down')
         self.stop_now()
 
     def stop_now(self) -> None:
-        self.log('Emergency stopping server')
+        self.log('Stopping server')
         self.runner.stop()
         self.instance_helper.stop()
