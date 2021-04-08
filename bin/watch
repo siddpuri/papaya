@@ -9,6 +9,8 @@ while true; do
         mc say "Uh oh, it looks like this server is about to be reclaimed."
         mc say "Server will be shutting down very soon."
         mc say $($CMD)
-    fi
+    else
+        mc say "Server is ok"
+        mc say '{"action": "terminate", "time": "2017-09-18T08:22:00Z"}'
     sleep 10
 done
