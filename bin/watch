@@ -12,9 +12,9 @@ while true; do
     CODE=$(curl -s -o /dev/null -w %{http_code} $TOKEN_HEADER:$TOKEN $ACTION_URL)
     if [ "$CODE" != 404 ]; then
         ACTION=$(curl -s $TOKEN_HEADER:$TOKEN $ACTION_URL)
-        mc say "Uh oh. Emergency shutdown imminent."
+        mc say "Uh oh. Unplanned shutdown in less than two minutes."
 #        mc say "Expected downtime: 5-10 minutes."
-        mc say "$ACTION"
+        mc say "Message from AWS: \"$ACTION\""
 #    else
 #        mc say "Server is ok"
 #        mc say '{"action": "terminate", "time": "2017-09-18T08:22:00Z"}'
