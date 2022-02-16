@@ -21,11 +21,13 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
 
 # Minecraft server
-55 14 * * 1-5 pi (papaya/server start >> log)
-# Holiday schedule:
-# 55  6 * * 1-5 pi (papaya/server start >> log)
-55  6 * * 6-7 pi (papaya/server start >> log)
 
-55 21 * * 0-4 pi (papaya/server warn_puri >> log)
-25 22 * * 0-4 pi (papaya/server warn_benni >> log)
-55 22 * *  *  pi (papaya/server stop >> log)
+# Weekdays
+55 16 * * 1-5 pi (papaya/server start >> log)
+55 21 * * 0-4 pi (papaya/server  stop >> log)
+
+# Weekends
+55  9 * * 6,0 pi (papaya/server start >> log)
+55 22 * * 5,6 pi (papaya/server stop >> log)
+
+#55 21 * * 0-4 pi (papaya/server warn_puri >> log)

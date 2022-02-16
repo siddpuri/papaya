@@ -27,7 +27,7 @@ class ScriptRunner:
     def start(self) -> None:
         self.wait_for_server()
         self.run_remote(
-            'sudo ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime',
+            'sudo ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime',
             'sudo yum update -y',
             'sudo reboot now',
         )
