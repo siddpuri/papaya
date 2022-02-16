@@ -39,7 +39,7 @@ class ScriptRunner:
             'sudo mkdir /mc',
             'sudo mount /dev/nvme1n1 /mc',
             'start',
-            'nohup watch &',
+            # 'nohup watch &',
         )
 
     def warn_all(self, message: str) -> None:
