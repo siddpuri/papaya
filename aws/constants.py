@@ -71,7 +71,7 @@ TAG_SPECIFICATION = {
     ]
 }
 
-ZONE_CHANGES = lambda action, address: {
+DNS_CHANGES = lambda action, address: {
     'Changes': [
         {
             'Action': action,
