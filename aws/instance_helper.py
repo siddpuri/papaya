@@ -91,7 +91,8 @@ class InstanceHelper:
 
     def request_instance_type(self, ami_id: str, instance_type: str) -> str:
         response = self.ec2.request_spot_instances(
-            LaunchSpecification=c.LAUNCH_SPECIFICATION(ami_id, instance_type)
+            LaunchSpecification=c.LAUNCH_SPECIFICATION(ami_id, instance_type),
+            TagSpecifications=[c.TAG_SPECIFICATION],
         )
         requests = response['SpotInstanceRequests']
         assert len(requests) == 1

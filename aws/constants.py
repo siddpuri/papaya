@@ -13,6 +13,7 @@ INSTANCE_TYPES = [
     'a1.2xlarge',
 ]
 
+INSTANCE_NAME = 'minecraft'
 KEY_NAME = 'tp'
 AVAILABILITY_ZONE = 'us-west-2a'
 SECURITY_GROUP = 'minecraft'
@@ -40,6 +41,10 @@ INSTANCE_FILTER = [
         'Values': [AVAILABILITY_ZONE],
     },
     {
+        'Name': 'tag:Name',
+        'Values': [INSTANCE_NAME],
+    },
+    {
         'Name': 'instance-state-name',
         'Values': ['pending', 'running'],
     },
@@ -57,10 +62,16 @@ LAUNCH_SPECIFICATION = lambda ami_id, instance_type: {
     'ImageId': ami_id,
     'InstanceType': instance_type,
     'KeyName': KEY_NAME,
-    'Placement': {'AvailabilityZone': AVAILABILITY_ZONE},
+    'Placement': {'AvailabilityZone': AVAILABILITY_DNS},
 }
 
-DNS_CHANGES = lambda action, address: {
+TAG_SPECIFICATION = {
+    'Tags': [
+        {'Key': 'Name', 'Value': INSTANCE_NAME},
+    ]
+}
+
+ZONE_CHANGES = lambda action, address: {
     'Changes': [
         {
             'Action': action,
