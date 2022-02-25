@@ -62,7 +62,7 @@ LAUNCH_SPECIFICATION = lambda ami_id, instance_type: {
     'ImageId': ami_id,
     'InstanceType': instance_type,
     'KeyName': KEY_NAME,
-    'Placement': {'AvailabilityZone': AVAILABILITY_DNS},
+    'Placement': {'AvailabilityZone': AVAILABILITY_ZONE},
 }
 
 TAG_SPECIFICATION = {
