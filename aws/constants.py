@@ -65,12 +65,6 @@ LAUNCH_SPECIFICATION = lambda ami_id, instance_type: {
     'Placement': {'AvailabilityZone': AVAILABILITY_ZONE},
 }
 
-TAG_SPECIFICATION = {
-    'Tags': [
-        {'Key': 'Name', 'Value': INSTANCE_NAME},
-    ]
-}
-
 DNS_CHANGES = lambda action, address: {
     'Changes': [
         {

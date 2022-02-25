@@ -91,8 +91,7 @@ class InstanceHelper:
 
     def request_instance_type(self, ami_id: str, instance_type: str) -> str:
         response = self.ec2.request_spot_instances(
-            LaunchSpecification=c.LAUNCH_SPECIFICATION(ami_id, instance_type),
-            TagSpecifications=[c.TAG_SPECIFICATION],
+            LaunchSpecification=c.LAUNCH_SPECIFICATION(ami_id, instance_type)
         )
         requests = response['SpotInstanceRequests']
         assert len(requests) == 1
@@ -107,7 +106,12 @@ class InstanceHelper:
         )
         requests = response['SpotInstanceRequests']
         assert len(requests) == 1
-        return requests[0]['InstanceId']
+        instance_id = requests[0]['InstanceId']
+        self.ec2.create_tags(
+            Resources=[instance_id],
+            Tags=[{'Key': 'Name', 'Value': c.INSTANCE_NAME}],
+        )
+        return instance_id
 
     def cancel_spot_request(self) -> None:
         response = self.ec2.describe_spot_instance_requests(
